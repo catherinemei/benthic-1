@@ -310,31 +310,31 @@ export function TraversalOutputComponentKeyboardParentFocus(
       } else {
         titleSection?.focus();
       }
-    } else if (event.key === "Backspace") {
-      setHistory((prev) => {
-        const newHistory = [...prev];
-        const currentNode = newHistory.pop();
-        const previousNodeId = newHistory[newHistory.length - 1];
+    // } else if (event.key === "Backspace") {
+    //   setHistory((prev) => {
+    //     const newHistory = [...prev];
+    //     const currentNode = newHistory.pop();
+    //     const previousNodeId = newHistory[newHistory.length - 1];
 
-        if (previousNodeId) {
-          // used to announce undo action
-          const undoMessage = document.getElementById("undo-text");
-          if (undoMessage) {
-            undoMessage.focus();
-          }
+    //     if (previousNodeId) {
+    //       // used to announce undo action
+    //       const undoMessage = document.getElementById("undo-text");
+    //       if (undoMessage) {
+    //         undoMessage.focus();
+    //       }
 
-          setCurrentNodeId(previousNodeId);
+    //       setCurrentNodeId(previousNodeId);
 
-          // reset focus to previous node after announcement
-          setTimeout(() => {
-            const newNode = document.getElementById(`info-${previousNodeId}`);
-            if (newNode) {
-              newNode.focus();
-            }
-          }, 1000);
-        }
-        return newHistory;
-      });
+    //       // reset focus to previous node after announcement
+    //       setTimeout(() => {
+    //         const newNode = document.getElementById(`info-${previousNodeId}`);
+    //         if (newNode) {
+    //           newNode.focus();
+    //         }
+    //       }, 1000);
+    //     }
+    //     return newHistory;
+    //   });
     } else if (
       event.key === "ArrowLeft" ||
       event.key === "ArrowRight" ||
@@ -613,11 +613,11 @@ export function HypergraphNodeComponentKeyboardOnly(
         </For>
       </ul>
 
-      <ul id="undo-text" tabindex="0" aria-label="Pressing Undo">
+      {/* <ul id="undo-text" tabindex="0" aria-label="Pressing Undo">
         <span style={{ "font-weight": "bold" }} aria-hidden={true}>
           Pressing Undo
         </span>
-      </ul>
+      </ul> */}
     </div>
   );
 }
