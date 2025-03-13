@@ -582,7 +582,7 @@ export function HypergraphNodeComponentKeyboardOnly(
               id={`context-${props.node.id}-${idx()}-${parent.id}`}
               aria-label={`${idx() + 1} of ${nonFocusedParentIds().length}. ${
                 parent.displayName
-              } group. Press Enter to select this grouping.`}
+              } group. Press Enter to switch context to this grouping.`}
               onClick={() => props.onNodeClick(props.node.id, parent.id, false)}
               tabIndex="0"
             >
