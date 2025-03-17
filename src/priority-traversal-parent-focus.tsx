@@ -119,6 +119,19 @@ export function TraversalOutputComponentKeyboardParentFocus(
       }
     }, 0);
   };
+
+  const handleTabIndexSwitch = (oldElement: HTMLElement | null, newElement: HTMLElement | null): void => {
+    if (oldElement) {
+      oldElement.setAttribute("tabindex", "-1");
+    }
+  
+    if (newElement) {
+      newElement.setAttribute("tabindex", "0");
+      newElement.focus();
+    }
+  };
+  
+
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === "ArrowUp" && event.shiftKey) {
       // current on one of the nodes/home
@@ -134,7 +147,6 @@ export function TraversalOutputComponentKeyboardParentFocus(
 
       // Select current parent node in focus
       if (focusedElementId === "parents-group") {
-        console.log("trying to select current parent node in focus");
         if (historyList.length == 2) {
           // First level child going back to root node
           const curNodeId = historyList.pop();
@@ -146,7 +158,10 @@ export function TraversalOutputComponentKeyboardParentFocus(
             const previousNodeElement = document.getElementById(
               `info-${previousNodeId}`
             );
+            
+
             if (previousNodeElement) {
+              handleTabIndexSwitch(focusedElement, previousNodeElement);
               previousNodeElement.focus();
             }
           }
@@ -175,11 +190,13 @@ export function TraversalOutputComponentKeyboardParentFocus(
           );
 
           if (parentNodeElement) {
+            handleTabIndexSwitch(focusedElement, parentNodeElement);
             parentNodeElement.focus();
           }
         } else {
           // At root node - only 1 node in history and cannot select/go-up
           const parentSection = document.getElementById(`parents-group`);
+          handleTabIndexSwitch(focusedElement, parentSection);
           parentSection?.focus();
         }
       } else if (focusedElementId.startsWith("context-")) {
@@ -209,6 +226,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
         );
 
         if (parentNodeElement) {
+          handleTabIndexSwitch(focusedElement, parentNodeElement)
           parentNodeElement.focus();
         }
       } else {
@@ -231,6 +249,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
                 `info-${previousNodeId}`
               );
               if (previousNodeElement) {
+                handleTabIndexSwitch(focusedElement, previousNodeElement)
                 previousNodeElement.focus();
               }
             }
@@ -259,15 +278,18 @@ export function TraversalOutputComponentKeyboardParentFocus(
             );
 
             if (parentNodeElement) {
+              handleTabIndexSwitch(focusedElement, parentNodeElement)
               parentNodeElement.focus();
             }
           } else {
             // At root node - only 1 node in history and cannot select/go-up
             const parentSection = document.getElementById(`parents-group`);
+            handleTabIndexSwitch(focusedElement, parentSection)
             parentSection?.focus();
           }
         } else {
           const currentParentNode = document.getElementById(`parents-group`);
+          handleTabIndexSwitch(focusedElement, currentParentNode)
           currentParentNode?.focus();
         }
       }
@@ -280,6 +302,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
       if (focusedElementId.startsWith("parents")) {
         const currentNode = document.getElementById(`info-${currentNodeId()}`);
         if (currentNode) {
+          handleTabIndexSwitch(focusedElement, currentNode)
           currentNode.focus();
         }
       } else {
@@ -294,6 +317,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
 
           const newSection = document.getElementById(`info-${firstChildId}`);
           if (newSection) {
+            handleTabIndexSwitch(focusedElement, newSection)
             newSection.focus();
           }
         }
@@ -306,6 +330,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
       const lastNodeButton = document.getElementById(`info-${lastNodeId}`);
 
       if (lastNodeButton) {
+        handleTabIndexSwitch(titleSection, lastNodeButton)
         lastNodeButton.focus();
       } else {
         titleSection?.focus();
@@ -371,6 +396,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
           setHistory([...historyList, newNodeId]);
           setCurrentNodeId(newNodeId);
         }
+        handleTabIndexSwitch(focusedElement, elmInGroup[newIndex])
         elmInGroup[newIndex]?.focus();
 
         event.preventDefault();
@@ -389,24 +415,28 @@ export function TraversalOutputComponentKeyboardParentFocus(
           currentIndex > 0
         ) {
           newIndex = currentIndex - 1;
+          handleTabIndexSwitch(focusedElement, contextElms[newIndex])
           contextElms[newIndex]?.focus();
         } else if (
           (event.key === "ArrowRight" || event.key === "ArrowDown") &&
           currentIndex < contextElms.length - 1
         ) {
           newIndex = currentIndex + 1;
+          handleTabIndexSwitch(focusedElement, contextElms[newIndex])
           contextElms[newIndex]?.focus();
         } else if (
           (event.key === "ArrowLeft" || event.key === "ArrowUp") &&
           currentIndex <= 0
         ) {
           const parentGroup = document.getElementById("parents-group");
+          handleTabIndexSwitch(focusedElement, parentGroup)
           parentGroup?.focus();
         } else if (
           (event.key === "ArrowRight" || event.key === "ArrowDown") &&
           currentIndex >= contextElms.length - 1
         ) {
           const parentGroup = document.getElementById("parents-group");
+          handleTabIndexSwitch(focusedElement, parentGroup)
           parentGroup?.focus();
         }
         event.preventDefault();
@@ -415,6 +445,8 @@ export function TraversalOutputComponentKeyboardParentFocus(
         const contextElms = Array.from(
           document.querySelectorAll(`#option-nodes li`)
         ) as HTMLElement[];
+
+        handleTabIndexSwitch(focusedElement, contextElms[0])
         contextElms[0]?.focus();
         event.preventDefault();
       } else {
@@ -434,6 +466,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
 
           const newSection = document.getElementById(`info-${firstChildId}`);
           if (newSection) {
+            handleTabIndexSwitch(focusedElement, newSection)
             newSection.focus();
           }
         }
@@ -449,6 +482,7 @@ export function TraversalOutputComponentKeyboardParentFocus(
           `info-${currentNodeId()}`
         );
         if (newCurrentNodeSection) {
+          handleTabIndexSwitch(focusedElement, newCurrentNodeSection)
           newCurrentNodeSection.focus();
         }
       } else {
@@ -544,10 +578,17 @@ export function HypergraphNodeComponentKeyboardOnly(
     <div>
       <ul
         id="parents-group"
-        role='group'
-        tabindex="0"
-        aria-label={
-          nonFocusedParentIds().length === 0
+        // role='group'
+        // tabindex="0"
+      >
+        <span
+          // aria-hidden={true}
+          style={{ "font-weight": "bold" }}
+          onClick={() =>
+            props.onNodeClick(props.node.id, props.parentFocusId, true)
+          }
+        >
+          {nonFocusedParentIds().length === 0
             ? `${
                 props.parentFocusId === "-1"
                   ? "No current groupings."
@@ -559,56 +600,39 @@ export function HypergraphNodeComponentKeyboardOnly(
                 props.nodeGraph[props.parentFocusId].displayName
               }. ${props.node.displayName} belongs to ${
                 nonFocusedParentIds().length
-              } additional groups. Use arrow and enter keys to make selection.`
-        }
-      >
-        <span
-          aria-hidden={true}
-          style={{ "font-weight": "bold" }}
-          onClick={() =>
-            props.onNodeClick(props.node.id, props.parentFocusId, true)
-          }
-        >
-          {props.node.displayName} belongs to{" "}
-          {props.parentFocusId === "-1"
-            ? "no groups"
-            : props.nodeGraph[props.parentFocusId].displayName}
+              } additional groups. Use arrow and enter keys to make selection.`}
         </span>
       </ul>
 
-      <ul tabindex="0" id="option-nodes" role="group">
+      <ul id="option-nodes" role='tree'>
         <For each={nonFocusedParents()}>
           {(parent, idx) => (
             <li
               id={`context-${props.node.id}-${idx()}-${parent.id}`}
-              aria-label={`${idx() + 1} of ${nonFocusedParentIds().length}. ${
-                parent.displayName
-              } group. Press Enter to switch context to this grouping.`}
               onClick={() => props.onNodeClick(props.node.id, parent.id, false)}
-              tabIndex="0"
+              role='treeitem'
             >
-              <span aria-hidden="true">{parent.displayName} group</span>
+              <span>{`${
+                parent.displayName
+              } group. Press Enter to switch context to this grouping.`}</span>
             </li>
           )}
         </For>
       </ul>
       <br />
 
-      <ul id="home" tabindex="0" aria-live="assertive" role="group">
+      <ul id="home" aria-live="assertive" role='tree'>
         <For
           each={sortAdjacents()}
           fallback={<li style={{ color: "grey" }}>None</li>}
         >
           {(adjacent, idx) => (
             <li
-              aria-label={`${idx() + 1} of ${sortAdjacents().length}. ${
-                adjacent.displayName
-              }; ${adjacent.descriptionTokens?.longDescription}`}
               id={`info-${adjacent.id}`}
               onClick={() => props.onNodeClick(props.node.id, adjacent.id)}
-              tabindex="0"
+              role='treeitem'
             >
-              <span aria-hidden="true">{`${adjacent.displayName}; ${adjacent.descriptionTokens?.longDescription}`}</span>
+              <span>{`${adjacent.displayName}; ${adjacent.descriptionTokens?.longDescription}`}</span>
             </li>
           )}
         </For>
