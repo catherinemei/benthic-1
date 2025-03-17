@@ -544,6 +544,7 @@ export function HypergraphNodeComponentKeyboardOnly(
     <div>
       <ul
         id="parents-group"
+        role='group'
         tabindex="0"
         aria-label={
           nonFocusedParentIds().length === 0
