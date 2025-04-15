@@ -9,7 +9,7 @@ This installs all dependencies for the project.
 This will run Benthic's screen reader interface in development mode. <br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-To see either the Stacked Bar Chart prototype or the Line Chart Prototype (used as introductory example in the user study), go to `src/App.tsx` and change which hypergraph is being passed to `TraversalOutputComponentKeyboardParentFocus` via the `nodeGraph` property.
+To see either the Stacked Bar Chart prototype, Aspirin molecule prototype, or Line Chart Prototype (used as introductory example in the user study), go to `src/App.tsx` and change which hypergraph is being passed to `TraversalOutputComponentKeyboardParentFocus` via the `nodeGraph` property.
 
 ### Navigation Controls
 

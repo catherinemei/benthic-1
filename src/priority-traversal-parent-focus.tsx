@@ -600,17 +600,11 @@ export function HypergraphNodeComponentKeyboardOnly(
               onClick={() => props.onNodeClick(props.node.id, adjacent.id)}
               role='treeitem'
             >
-              <span>{`${adjacent.displayName}; ${adjacent.descriptionTokens?.longDescription}`}</span>
+              <span>{`${adjacent.displayName}; ${adjacent.description}`}</span>
             </li>
           )}
         </For>
       </ul>
-
-      {/* <ul id="undo-text" tabindex="0" aria-label="Pressing Undo">
-        <span style={{ "font-weight": "bold" }} aria-hidden={true}>
-          Pressing Undo
-        </span>
-      </ul> */}
     </div>
   );
 }
