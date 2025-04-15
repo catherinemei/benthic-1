@@ -1,5 +1,9 @@
 In the project directory, you can run:
 
+### `pnpm install`
+
+This installs all dependencies for the project.
+
 ### `pnpm start`
 
 This will run Benthic's screen reader interface in development mode. <br>
