@@ -134,13 +134,6 @@ export function TraversalOutputComponentKeyboardParentFocus(
 
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === "ArrowUp" && event.shiftKey) {
-      // current on one of the nodes/home
-      // two options: go straight to parent in focus if only 1 parent
-      // or option to select which parent
-
-      // currently on one of the parent nodes
-      // select parent node - edge case if there's 1 or 2 nodes in history list
-
       const focusedElement = document.activeElement as HTMLElement;
       const focusedElementId = focusedElement?.id;
       const historyList = history();
@@ -335,31 +328,6 @@ export function TraversalOutputComponentKeyboardParentFocus(
       } else {
         titleSection?.focus();
       }
-    // } else if (event.key === "Backspace") {
-    //   setHistory((prev) => {
-    //     const newHistory = [...prev];
-    //     const currentNode = newHistory.pop();
-    //     const previousNodeId = newHistory[newHistory.length - 1];
-
-    //     if (previousNodeId) {
-    //       // used to announce undo action
-    //       const undoMessage = document.getElementById("undo-text");
-    //       if (undoMessage) {
-    //         undoMessage.focus();
-    //       }
-
-    //       setCurrentNodeId(previousNodeId);
-
-    //       // reset focus to previous node after announcement
-    //       setTimeout(() => {
-    //         const newNode = document.getElementById(`info-${previousNodeId}`);
-    //         if (newNode) {
-    //           newNode.focus();
-    //         }
-    //       }, 1000);
-    //     }
-    //     return newHistory;
-    //   });
     } else if (
       event.key === "ArrowLeft" ||
       event.key === "ArrowRight" ||
